@@ -62,7 +62,7 @@ public class AuthenticationRestController {
 
     @PostMapping("/auth/logout")
     public ResponseEntity<Object> logout() {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok("success");
     }
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
