@@ -60,6 +60,11 @@ public class AuthenticationRestController {
         return ResponseEntity.ok(roles);
     }
 
+    @PostMapping("/auth/logout")
+    public ResponseEntity<Object> logout() {
+        return ResponseEntity.ok(null);
+    }
+
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
         String authToken = request.getHeader(tokenHeader);
