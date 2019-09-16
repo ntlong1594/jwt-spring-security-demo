@@ -11,6 +11,7 @@ public class  JwtAuthenticationRequest implements Serializable {
 
     private String username;
     private String password;
+    private String captcha;
 
     public JwtAuthenticationRequest() {
         super();
@@ -35,5 +36,17 @@ public class  JwtAuthenticationRequest implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
     }
 }

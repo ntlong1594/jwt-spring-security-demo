@@ -11,7 +11,9 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.web.bind.annotation.*;
+import org.zerhusen.rest.CaptchaValidator;
 import org.zerhusen.security.JwtAuthenticationRequest;
 import org.zerhusen.security.JwtTokenUtil;
 import org.zerhusen.security.JwtUser;
@@ -35,11 +37,19 @@ public class AuthenticationRestController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
+    private CaptchaValidator captchaValidator;
+
+
+    @Autowired
     @Qualifier("jwtUserDetailsService")
     private UserDetailsService userDetailsService;
 
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws Exception {
+        Boolean isValidCaptcha = captchaValidator.validateCaptcha(authenticationRequest.getCaptcha());
+        if(!isValidCaptcha){
+            throw new Exception("Forbiden");
+        }
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
